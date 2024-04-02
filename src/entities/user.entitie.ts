@@ -4,26 +4,28 @@ import { LessonUser } from "./lesson-user.entitie";
 import { Mark } from "./mark.entite";
 
 @Entity()
-export class User{
+export class User {
 
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
-  @Column({type:"text", nullable: false})
-  password: string
+  @Column({ type: "text", nullable: false })
+  password: string;
 
-  @Column({type:"text", unique: true, nullable: false})
-  email: string
+  @Column({ type: "text", unique: true, nullable: false })
+  email: string;
+  @Column({ type: "text", nullable: true})
+  group: string;
 
-  @ManyToMany(()=> Mark, {eager: true})
+  @ManyToMany(() => Mark, { eager: true })
   @JoinTable()
-  marks: Mark[]
-  @ManyToMany(() => Role, {eager: true})
+  marks: Mark[];
+  @ManyToMany(() => Role, { eager: true } )
   @JoinTable()
-  roles: Role[]
+  roles: Role[];
 
-  @ManyToMany(()=> LessonUser, {eager: true})
+  @ManyToMany(() => LessonUser, { eager: true })
   @JoinTable()
-  lesson_user: LessonUser
+  lesson_user: LessonUser;
 
 }
