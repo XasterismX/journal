@@ -1,4 +1,13 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { User } from "./user.entitie";
 import { Lesson } from "./lesson.entite";
 
@@ -9,8 +18,11 @@ export class LessonUser{
   id: number
   @Column({type: "boolean", nullable: false})
   status: boolean
-
-  @ManyToMany(()=> Lesson)
-  @JoinTable()
+  @OneToMany(()=> Lesson, (lesson) => lesson.date)
+  @JoinColumn()
   lesson: Lesson
+
+  @ManyToOne(() => User, (user) => user.id)
+  user: User
+
 }

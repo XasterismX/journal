@@ -10,7 +10,5 @@ export class Mark {
   id: number
   @Column({type:"enum", enum: MarkEnum, nullable: true})
   mark: MarkEnum
-  @ManyToMany(()=> Lesson, (lesson) => lesson.date)
-  @JoinTable()
-  lesson: Lesson
+
 }

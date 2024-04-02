@@ -11,8 +11,6 @@ export class Role{
   @Column({type: "enum", enum: RoleEnum, default: RoleEnum.STUDENT})
   role: RoleEnum
 
-  @ManyToMany(()=> User, (user) => user.id)
-  @JoinTable()
-  user: User
+
 
 }

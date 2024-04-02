@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./role.entitie";
 import { LessonUser } from "./lesson-user.entitie";
 import { Mark } from "./mark.entite";
@@ -20,12 +20,12 @@ export class User {
   @ManyToMany(() => Mark, { eager: true })
   @JoinTable()
   marks: Mark[];
-  @ManyToMany(() => Role, { eager: true } )
+  @ManyToMany(() => Role,(roles)=> roles.id, { eager: true } )
   @JoinTable()
   roles: Role[];
 
-  @ManyToMany(() => LessonUser, { eager: true })
-  @JoinTable()
+  @OneToMany(() => LessonUser,(lesson_user)=>lesson_user.id, )
+  @JoinColumn({name:"lesson"})
   lesson_user: LessonUser;
 
 }

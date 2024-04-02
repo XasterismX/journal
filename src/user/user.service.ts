@@ -1,25 +1,24 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { BadGatewayException, HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { UserDto } from "../dtos/user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { User } from "../entities/user.entitie";
 import { Repository } from "typeorm";
 import { Role } from "../entities/role.entitie";
 import { RoleEnum } from "../enums/role.enum";
+import { RoleService } from "../role/role.service";
 
 
 @Injectable()
 export class UserService {
 
   constructor(@InjectRepository(User) private userRepository: Repository<User>,
-              @InjectRepository(Role) private roleRepo: Repository<Role>
+              @InjectRepository(Role) private roleRepo: Repository<Role>,
+              private roleService: RoleService
   ) {
   }
 
   async create(userDto: UserDto) {
 
-    if(await this.userRepository.findOneBy({ email: userDto.email })){
-      throw new HttpException("пользователь существует", HttpStatus.BAD_REQUEST)
-    }
     const defaultRole: Role = await this.roleRepo.findOneBy({role:RoleEnum.STUDENT})
     return this.userRepository.save({ ...userDto, roles: [defaultRole] });
   }
@@ -32,12 +31,20 @@ export class UserService {
     return await this.userRepository.findOneBy({ id });
   }
 
-  async updateUser(userDto: UserDto, id: number) {
+  async updateUser(userDto: UserDto, id: number, roleId: number[]) {
     try {
-      return this.userRepository.update(id, { ...userDto })
-    }catch (e) {
+      const rols: Role[] = []
+
+      for (let i = 0; i <roleId.length;i++) {
+        console.log(await this.roleService.getRoleById(roleId[i]))
+        rols.push(await this.roleService.getRoleById(roleId[i]))
+      }
+      return  await this.userRepository.save({ ...userDto, roles: rols })
+
+    }
+    catch (e) {
       console.log(e)
-      throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR)
+      throw new BadGatewayException({message:"Не предвиденная ошибка"})
     }
     }
 

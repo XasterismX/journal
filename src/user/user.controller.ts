@@ -1,10 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Put, Query } from "@nestjs/common";
 import { UserDto } from "../dtos/user.dto";
 import { UserService } from "./user.service";
+import { RoleService } from "../role/role.service";
 
 @Controller("user")
 export class UserController {
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private  roleService: RoleService
+              ) {
   }
 
   @Post("/create")
@@ -23,10 +26,14 @@ export class UserController {
   }
 
   @Put("/update/:id")
-  async updateUser(@Body() userDto: UserDto, @Param("id") id: number){
-
-    return this.userService.updateUser(userDto, id)
-  }
+  async updateUser(@Body() userDto: UserDto, @Param("id") id: number, @Body("roleId") roleId: number[]){
+    try {
+      return this.userService.updateUser(userDto, id, roleId)
+    }catch (e) {
+      console.log(e)
+      throw new HttpException(e, HttpStatus.BAD_REQUEST)
+    }
+    }
 
   @Delete("/delete/:id")
   async deleteUser(@Param("id") id: number) {
