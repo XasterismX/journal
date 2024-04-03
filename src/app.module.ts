@@ -9,7 +9,12 @@ import { Lesson } from "./entities/lesson.entite";
 import { Subject } from "./entities/subject.entitie";
 import { UserModule } from "./user/user.module";
 import { LessonUser } from "./entities/lesson-user.entitie";
-import { RoleModule } from './role/role.module';
+import { RoleModule } from "./role/role.module";
+import { MarkModule } from "./mark/mark.module";
+import { SubjectService } from "./subject/subject.service";
+import { SubjectController } from "./subject/subject.controller";
+import { SubjectModule } from "./subject/subject.module";
+import { LessonModule } from './lesson/lesson.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -21,7 +26,7 @@ import { RoleModule } from './role/role.module';
     database: "journal",
     entities: [User, Role, Mark, Lesson, Subject, LessonUser],
     synchronize: true
-  }), UserModule, RoleModule],
+  }), UserModule, RoleModule, MarkModule, SubjectModule, LessonModule],
   controllers: [AppController],
   providers: [AppService]
 })

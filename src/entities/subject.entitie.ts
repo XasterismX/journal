@@ -1,4 +1,9 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToMany, OneToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { Lesson } from "./lesson.entite";
 
 @Entity()
@@ -7,7 +12,8 @@ export class Subject{
   id: number
   @Column({type: "text", nullable: false})
   name: string
-  @ManyToMany(() => Lesson, {eager: true})
-  @JoinTable()
-  lesson_id: Lesson
+  @OneToMany(() => Lesson, (lesson)=>lesson.date)
+  lesson: Lesson[]
+
+
 }
