@@ -8,6 +8,7 @@ import { SubjectModule } from "../subject/subject.module";
 @Module({
   imports:[TypeOrmModule.forFeature([Lesson]), SubjectModule],
   controllers: [LessonController],
-  providers: [LessonService]
+  providers: [LessonService],
+  exports:[LessonService]
 })
 export class LessonModule {}

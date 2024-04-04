@@ -13,7 +13,6 @@ export class LessonService {
   }
 
   async createLesson(lessonDto: LessonDto) {
-    console.log(lessonDto)
     const lesson = await this.lessonRepo.save({ ...lessonDto, subject: await this.subjectService.getOne(lessonDto.subject)});
     console.log(lesson)
     return lesson

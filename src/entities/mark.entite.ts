@@ -1,6 +1,7 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { MarkEnum } from "../enums/mark.enum";
 import { Lesson } from "./lesson.entite";
+import { User } from "./user.entitie";
 
 
 @Entity()
@@ -8,7 +9,12 @@ import { Lesson } from "./lesson.entite";
 export class Mark {
   @PrimaryGeneratedColumn()
   id: number
-  @Column({type:"enum", enum: MarkEnum, nullable: true})
+  @Column({ type: "enum", enum: MarkEnum, nullable: true })
   mark: MarkEnum
-
+  @ManyToOne(() => User,(user)=>user.id, {eager: true, nullable: false})
+  @JoinColumn()
+  user: User
+  @ManyToOne(() => Lesson, (lesson)=> lesson.date, {nullable: false, eager: true})
+  @JoinColumn()
+  lesson: Lesson
 }

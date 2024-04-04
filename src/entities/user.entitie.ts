@@ -17,14 +17,13 @@ export class User {
   @Column({ type: "text", nullable: true})
   group: string;
 
-  @ManyToMany(() => Mark, { eager: true })
-  @JoinTable()
+  @OneToMany(() => Mark, (mark)=>mark.id, {lazy: true})
   marks: Mark[];
   @ManyToMany(() => Role,(roles)=> roles.id, { eager: true } )
   @JoinTable()
   roles: Role[];
 
-  @OneToMany(() => LessonUser,(lesson_user)=>lesson_user.id, )
+  @OneToMany(() => LessonUser,(lesson_user)=>lesson_user.id )
   @JoinColumn({name:"lesson"})
   lesson_user: LessonUser;
 

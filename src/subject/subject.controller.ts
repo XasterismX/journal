@@ -5,27 +5,27 @@ import { SubjectDto } from "../dtos/subject.dto";
 @Controller("subject")
 export class SubjectController {
 
-  constructor(private subjecrService: SubjectService) {
+  constructor(private subjectService: SubjectService) {
   }
 
   @Post("/create")
   async createSubject(@Body() subjectDto: SubjectDto) {
-    return await this.subjecrService.create(subjectDto);
+    return await this.subjectService.create(subjectDto);
   }
 
   @Get("/all")
   async getAll() {
-    return await this.subjecrService.getAll();
+    return await this.subjectService.getAll();
   }
 
   @Get(":id")
   async getOne(@Param("id") id: number) {
-    return await this.subjecrService.getOne(id);
+    return await this.subjectService.getOne(id);
   }
 
   @Delete("")
   async delete(@Param("id") id: number) {
-    return await this.subjecrService.delete(id)
+    return await this.subjectService.delete(id)
   }
 
 }
