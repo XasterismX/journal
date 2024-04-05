@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Mark } from "../entities/mark.entite";
 import { Repository } from "typeorm";
@@ -15,18 +15,24 @@ export class MarkService {
   }
 
   async setMark(markDto: MarkDto){
-    const user = await this.userService.getOne((markDto.userId))
-    const lesson = await this.lessonService.getOne(((new Date(markDto.lessonDate))))
+    const user = await this.userService.getOne((markDto.user))
+    const lesson = await this.lessonService.getOne(new Date(markDto.lessonDate))
     return await this.markRepo.save({ ...markDto, user, lesson })
   }
   async getOne(id: number){
     return await this.markRepo.findOneBy({id})
   }
 
-  // async replaceMark(id: number, markDto: MarkDto){
-  //   const user = await this.userService.getOne((markDto.userId))
-  //   const lesson = await this.lessonService.getOne(((new Date(markDto.lessonDate))))
-  //   return await this.markRepo.save({id, ...markDto, user, lesson},  )
-  // }
+  async replaceMark(id: number, markDto: MarkDto){
+    try {
+      const user = await this.userService.getOne((markDto.user))
+      const lesson = await this.lessonService.getOne(markDto.lessonDate)
+      console.log(markDto.lessonDate)
+      console.log(lesson)
+      return await this.markRepo.save({ id: Number.parseInt(String(id)), ...markDto, user, lesson: lesson },)
+    }catch (e) {
+      throw new HttpException(e, HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+    }
 }
 

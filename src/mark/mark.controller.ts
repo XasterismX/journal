@@ -18,10 +18,9 @@ constructor(private markService: MarkService) {
   return this.markService.getOne(id)
   }
 
-  //TODO: доработать
-  // @Put("/update")
-  // async updateMark(@Body() markDto: MarkDto, @Query("id") id: number) {
-  //   return await this.markService.replaceMark(id, markDto)
-  // }
+  @Put("/update")
+  async updateMark(@Body() markDto: MarkDto, @Query("id") id: number) {
+    return await this.markService.replaceMark(id, markDto)
+  }
 
 }

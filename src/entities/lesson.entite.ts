@@ -20,7 +20,7 @@ export class Lesson {
   date : Date
   @Column({type: "enum", enum: LessonEnum, nullable:false})
   type: LessonEnum
-  @OneToMany(()=> Mark, (mark) => mark.id, )
+  @OneToMany(()=> Mark, (mark) => mark.id )
   mark: Mark[]
   @ManyToOne(()=> Subject,  {eager: true})
   @JoinColumn()

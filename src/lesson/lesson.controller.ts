@@ -14,7 +14,7 @@ export class LessonController {
     lessonDto.type = "lecture" ? LessonEnum.LECTURE : LessonEnum.PRACTICAL
     if (lessonDto.date == undefined){
       let currentTime = new Date().getTime()
-      lessonDto.date = new Date()
+      lessonDto.date = new Date(currentTime)
       return this.lessonService.createLesson(lessonDto)
     }
     return this.lessonService.createLesson(lessonDto)
@@ -26,7 +26,7 @@ export class LessonController {
   }
   @Get("/one")
   async getOne(@Query("date") date: string){
-    const currentDate = new Date(date)
-    return await this.lessonService.getOne(currentDate)
+
+    return await this.lessonService.getOne(new Date(date))
   }
 }
