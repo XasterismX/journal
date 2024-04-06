@@ -18,17 +18,16 @@ export class UserService {
   }
 
   async create(userDto: UserDto) {
-
     const defaultRole: Role = await this.roleRepo.findOneBy({role:RoleEnum.STUDENT})
-    return this.userRepository.save({ ...userDto, roles: [defaultRole] });
+    return await this.userRepository.save({ ...userDto, roles: [defaultRole] });
   }
 
   async getAll() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({relations: {roles: true}});
   }
 
   async getOne(id: number) {
-    return await this.userRepository.findOneBy({ id });
+    return await this.userRepository.findOne({ where: { id } });
   }
 
   async updateUser(userDto: UserDto, id: number, roleId: number[]) {
@@ -46,6 +45,9 @@ export class UserService {
       console.log(e)
       throw new BadGatewayException({message:"Не предвиденная ошибка"})
     }
+    }
+    async getUserWithEmail(email: string){
+    return await this.userRepository.findOne({where: { email }, relations: {}}, )
     }
 
   async deleteUser(id: number) {

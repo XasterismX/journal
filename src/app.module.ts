@@ -8,13 +8,13 @@ import { Mark } from "./entities/mark.entite";
 import { Lesson } from "./entities/lesson.entite";
 import { Subject } from "./entities/subject.entitie";
 import { UserModule } from "./user/user.module";
-import { LessonUser } from "./entities/lesson-user.entitie";
 import { RoleModule } from "./role/role.module";
 import { MarkModule } from "./mark/mark.module";
 import { SubjectService } from "./subject/subject.service";
 import { SubjectController } from "./subject/subject.controller";
 import { SubjectModule } from "./subject/subject.module";
 import { LessonModule } from './lesson/lesson.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [TypeOrmModule.forRoot({
@@ -24,9 +24,10 @@ import { LessonModule } from './lesson/lesson.module';
     username: "postgres",
     password: "root",
     database: "journal",
-    entities: [User, Role, Mark, Lesson, Subject, LessonUser],
-    synchronize: true
-  }), UserModule, RoleModule, MarkModule, SubjectModule, LessonModule],
+    synchronize: true,
+    entities: [User, Role, Mark, Lesson, Subject],
+    autoLoadEntities: true
+  }), UserModule, RoleModule, MarkModule, SubjectModule, LessonModule, AuthModule],
   controllers: [AppController],
   providers: [AppService]
 })

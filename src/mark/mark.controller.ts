@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post, Put, Query, Req, Request, UseGuards } from "@nestjs/common";
 import { MarkService } from "./mark.service";
 import { MarkDto } from "../dtos/mark.dto";
 import { LessonService } from "../lesson/lesson.service";
 import { UserService } from "../user/user.service";
+import { AuthGuard } from "../auth/auth.guard";
 
 @UseGuards()
 @Controller('mark')
@@ -13,9 +14,15 @@ constructor(private markService: MarkService) {
   async setMark(@Body() markDto: MarkDto) {
     return await this.markService.setMark(markDto)
   }
+
+  @UseGuards(AuthGuard)
   @Get(":id")
-  async getOne(@Param("id") id: number){
-  return this.markService.getOne(id)
+  async getOne(@Request() req){
+  return this.markService.getOne(req.user.id)
+  }
+  @Get("")
+  async getAll(@Request() req){
+  return this.markService.getAll(req.user)
   }
 
   @Put("/update")

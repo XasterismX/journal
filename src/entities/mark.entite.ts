@@ -11,7 +11,7 @@ export class Mark {
   id: number
   @Column({ type: "enum", enum: MarkEnum, nullable: true })
   mark: MarkEnum
-  @ManyToOne(() => User,(user)=>user.id, {eager: true, nullable: false})
+  @ManyToOne(() => User,(user)=>user.id, {nullable: false})
   @JoinColumn()
   user: User
   @ManyToOne(() => Lesson, {nullable: false, eager: true})

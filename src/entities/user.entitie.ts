@@ -1,9 +1,8 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Role } from "./role.entitie";
-import { LessonUser } from "./lesson-user.entitie";
 import { Mark } from "./mark.entite";
 
-@Entity()
+@Entity({name: "user"})
 export class User {
 
   @PrimaryGeneratedColumn()
@@ -14,17 +13,13 @@ export class User {
 
   @Column({ type: "text", unique: true, nullable: false })
   email: string;
-  @Column({ type: "text", nullable: true})
+  @Column({ type: "text", nullable: true })
   group: string;
+  @OneToMany(() => Mark, (mark) => mark.id)
 
-  @OneToMany(() => Mark, (mark)=>mark.id, {lazy: true})
   marks: Mark[];
-  @ManyToMany(() => Role,(roles)=> roles.id, { eager: true } )
+  @ManyToMany(() => Role, (roles) => roles.id, { eager: true })
   @JoinTable()
   roles: Role[];
-
-  @OneToMany(() => LessonUser,(lesson_user)=>lesson_user.id )
-  @JoinColumn({name:"lesson"})
-  lesson_user: LessonUser;
 
 }

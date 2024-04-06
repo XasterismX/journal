@@ -6,6 +6,7 @@ import { MarkDto } from "../dtos/mark.dto";
 import { LessonService } from "../lesson/lesson.service";
 import { UserService } from "../user/user.service";
 import { MarkEnum } from "../enums/mark.enum";
+import { User } from "../entities/user.entitie";
 
 @Injectable()
 export class MarkService {
@@ -21,6 +22,9 @@ export class MarkService {
   }
   async getOne(id: number){
     return await this.markRepo.findOneBy({id})
+  }
+  async getAll(user: User){
+    return this.markRepo.findBy({user})
   }
 
   async replaceMark(id: number, markDto: MarkDto){
