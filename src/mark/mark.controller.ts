@@ -10,20 +10,22 @@ import { AuthGuard } from "../auth/auth.guard";
 export class MarkController {
 constructor(private markService: MarkService) {
 }
+  @UseGuards(AuthGuard)
+
   @Post("/set")
   async setMark(@Body() markDto: MarkDto) {
     return await this.markService.setMark(markDto)
   }
 
-  @UseGuards(AuthGuard)
   @Get(":id")
-  async getOne(@Request() req){
-  return this.markService.getOne(req.user.id)
+  async getOne(@Param() id: number){
+  return await this.markService.getOne(id)
   }
   @Get("")
-  async getAll(@Request() req){
-  return this.markService.getAll(req.user)
+  async getAll(@Body() data){
+  return this.markService.getAll(data)
   }
+  @UseGuards(AuthGuard)
 
   @Put("/update")
   async updateMark(@Body() markDto: MarkDto, @Query("id") id: number) {

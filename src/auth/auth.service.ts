@@ -27,8 +27,8 @@ export class AuthService {
 
   }
 
-  private async generateJwt(userDto: UserDto){
-    return await this.jwt.signAsync({ ...userDto, password: null })
+  private async generateJwt(user){
+    return await this.jwt.signAsync({ ...user, password: null })
   }
 
   private async validateUser(userDto: UserDto) {

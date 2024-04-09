@@ -18,8 +18,17 @@ export class UserService {
   }
 
   async create(userDto: UserDto) {
+    let role: Role[] = [];
+    for (let i = 0; i < userDto.roleId.length; i++) {
+      role.push(await this.roleRepo.findOneBy({ id: userDto.roleId[i] }))
+    }
     const defaultRole: Role = await this.roleRepo.findOneBy({role:RoleEnum.STUDENT})
-    return await this.userRepository.save({ ...userDto, roles: [defaultRole] });
+      if (!userDto.roleId){
+        return await this.userRepository.save({ ...userDto, roles: [defaultRole] });
+
+      }
+    return await this.userRepository.save({ ...userDto, roles: role });
+
   }
 
   async getAll() {

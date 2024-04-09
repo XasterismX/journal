@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, UseGuards } from "@nestjs/common";
 import { RoleService } from "./role.service";
 import { RoleEnum } from "../enums/role.enum";
+import { RoleGuard } from "./role.guard";
 
 @Controller('role')
 export class RoleController {
@@ -8,6 +9,7 @@ export class RoleController {
   constructor(private roleService: RoleService) {
   }
 
+  @UseGuards(RoleGuard)
   @Post("create")
   async createRole(@Body() role: string){
     console.log(role["role"])

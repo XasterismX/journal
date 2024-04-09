@@ -6,4 +6,5 @@ export class UserDto{
   @IsNotEmpty()
   password: string
   group: string
+  roleId: number[]
 }

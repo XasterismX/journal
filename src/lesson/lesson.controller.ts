@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
 import { LessonService } from "./lesson.service";
 import { LessonDto } from "../dtos/lessonDto";
 import { LessonEnum } from "../enums/lesson.enum";
+import { RoleGuard } from "../role/role.guard";
 
 @Controller('lesson')
 export class LessonController {
@@ -9,6 +10,8 @@ export class LessonController {
   constructor(private lessonService: LessonService) {
   }
 
+
+  @UseGuards(RoleGuard)
   @Post("/create")
   async createLesson(@Body() lessonDto:LessonDto){
     lessonDto.type = "lecture" ? LessonEnum.LECTURE : LessonEnum.PRACTICAL

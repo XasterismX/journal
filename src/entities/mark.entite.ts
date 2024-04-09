@@ -14,7 +14,7 @@ export class Mark {
   @ManyToOne(() => User,(user)=>user.id, {nullable: false})
   @JoinColumn()
   user: User
-  @ManyToOne(() => Lesson, {nullable: false, eager: true})
+  @ManyToOne(() => Lesson, (lesson)=>lesson.date,{nullable: false, eager: true})
   @JoinColumn()
   lesson: Lesson
 }
